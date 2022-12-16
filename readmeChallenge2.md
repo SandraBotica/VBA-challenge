@@ -12,30 +12,32 @@ Sub ticker():
 For Each ws In Worksheets
 
             'Variable declarations and variable assignments
-            'Set and initial variable for holding the ticker symbol name
+            
+            'Set an initial variable for holding the ticker symbol name
     Dim ticker_symbol As String
     
-            'Set and initial variable for holding the total stock volume number
+            'Set an initial variable for holding the total stock volume number
     Dim total_stock_volume As LongLong
     total_stock_volume = 0
     
+            'Set an initial variable for holding the summary table row
             'Keep track of the location for each variable in the summary table
     Dim summary_table_row As Integer
     summary_table_row = 2
     
-            'Set and initial variable for holding the open price number for a ticker
+            'Set an initial variable for holding the open price number for a ticker
     Dim open_price As Double
     
-            'Set and initial variable for holding the close price number for a ticker
+            'Set an initial variable for holding the close price number for a ticker
     Dim close_price As Double
     
-            'Set and initial variable for holding the Yearly_Change number
+            'Set an initial variable for holding the Yearly_Change number
     Dim Yearly_Change As Double
     
-            'Set and initial variable for holding the Percent_Change number
+            'Set an initial variable for holding the Percent_Change number
     Dim Percent_Change As Double
     
-            'Set and initial variable for holding the Percent_Change_rounded number
+            'Set an initial variable for holding the Percent_Change_rounded number
     Dim Percent_Change_rounded As Double
     
             'Set and initial variable for holding the Greatest_Percent_Increase number for the Bonus summary table
@@ -47,7 +49,7 @@ For Each ws In Worksheets
             'Set and initial variable for holding the Greatest_total_volume number for the Bonus summary table
     Dim Greatest_total_volume As LongLong
     
-            'Determine the lastrow
+            'Determine the lastrow in a column
     lastrow = Cells(Rows.Count, 1).End(xlUp).Row
     
             'Inserting titles of columns Via cells on every worksheet
@@ -83,29 +85,16 @@ For Each ws In Worksheets
                     'Variable argument for Yearly_Change for the first ticker
             Yearly_Change = (close_price - open_price)
             
-                'Print the ticker_symbol into the summary table
+                'Print the ticker_symbol for the Yearly_Change into the summary table
             ws.Range("I" & summary_table_row).Value = ticker_symbol
             
                 'Print the Yearly_Change amount into the summary table
-            ws.Range("J" & summary_table_row).Value = Yearly_Change
-            
-                
-                
-                
-                
-             If ws.Yearly_Change = Positive Then
-                ws.Yearly_Change.Interior.ColorIndex = 3
-            Else
-                If ws.Yearly_Change.Value = Negative Then
-                ws.Yearly_Change.Interior.ColorIndex = 5
-            End If
-                
-                
+            ws.Range("J" & summary_table_row).Value = Yearly_Change           
                 
                     'Variable argument for Percent_Change for the first ticker
             Percent_Change = (Yearly_Change / open_price) * 100
             
-                    'Print the ticker_symbol into the summary table
+                    'Print the ticker_symbol foir the Percent_Change into the summary table
             ws.Range("I" & summary_table_row).Value = ticker_symbol
                         
                     'Print the Percent_Change amount into the summary table
@@ -113,11 +102,6 @@ For Each ws In Worksheets
             
             
             open_price = ws.Cells(i + 1, 3).Value
-            
-            
-            
-            Percent_Change_rounded = Round(Percent_Change)
-            
             
                         'Add one to the summary table row to move to the next row and new ticker
             summary_table_row = summary_table_row + 1
@@ -129,9 +113,22 @@ For Each ws In Worksheets
             
             End If
             
+                                    'If the Yearly-Change Value in the cell of the summary table is positive highlight the cell green and if not highlight the cell red i.e. it is a negative value
+                        If ws.Cells(summary_table_row - 1, 10).Value > 0 Then
+                        ws.Cells(summary_table_row - 1, 10).Interior.ColorIndex = 4
+                        Else
+                        ws.Cells(summary_table_row - 1, 10).Interior.ColorIndex = 3
+                        End If
+
+                                    'If the Percent-Change Value in the cell of the summary table is positive highlight the cell green and if not highlight the cell red i.e. it is a negative value
+                         If ws.Cells(summary_table_row - 1, 11).Value > 0 Then
+                        ws.Cells(summary_table_row - 1, 11).Interior.ColorIndex = 4
+                        Else
+                        ws.Cells(summary_table_row - 1, 11).Interior.ColorIndex = 3
+                        End If
+
         Next i
-        
-            
+                  
 Next ws
 
 End Sub
